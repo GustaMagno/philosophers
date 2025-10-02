@@ -6,7 +6,7 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:22:32 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/02 21:50:15 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/02 22:50:15 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,17 @@ typedef struct s_philo
 	int			fork;
 	t_usecs		time_to_die;
 	pthread_t	thread;
+	t_info 		*info;
 }	t_philo;
 typedef struct s_info
 {
-	int		n_philo;
-	t_usecs	time_to_eat;
-	t_usecs	optional_eat;
-	t_usecs	time_to_die;
-	t_usecs	time_to_sleep;
-	t_philo *philo;
+	int				n_philo;
+	t_usecs			time_to_eat;
+	t_usecs			optional_eat;
+	t_usecs			time_to_die;
+	t_usecs			time_to_sleep;
+	pthread_mutex_t *n_fork;
+	t_philo 		*philo;
 }	t_info;
 
 #endif

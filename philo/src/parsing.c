@@ -6,7 +6,7 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:30:22 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/02 21:46:04 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/02 22:54:01 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,6 @@ int	parsing(int argc, char **argv, t_info *info)
 	if (argc == 6)
 		info->optional_eat = ft_atol(argv[5]);
 	info->philo = malloc(sizeof(t_philo) * info->n_philo);
+	info->n_fork = malloc(sizeof(pthread_mutex_t) * info->n_philo);
 	return (1);
 }
