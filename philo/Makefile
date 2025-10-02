@@ -3,8 +3,8 @@ CC		= cc
 CFLAGS	= -g -O3 -Iinclude
 
 
-SRCS	= philosophers.c \
-		parsing.c \
+SRCS	= src/philosophers.c \
+		src/parsing.c \
 
 OBJS	= $(SRCS:.c=.o)
 

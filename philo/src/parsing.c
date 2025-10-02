@@ -6,7 +6,7 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:30:22 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/09/29 21:44:23 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/02 21:46:04 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,22 @@ long	ft_atol(const char *str)
 		nb *= -1;
 	return (nb);
 }
+
+void	put_list(t_philo *head, int index)
+{
+	if (!head)
+	{
+		head->id = index;
+
+	}
+}
+
+
+void	create_list(t_philo	*head, int n_philo)
+{
+			
+}
+
 int	check_values(char *argument, int position)
 {
 	int	i;
@@ -57,7 +73,7 @@ int	check_values(char *argument, int position)
 	return (1);
 }
 
-int	parsing(int argc, char **argv)
+int	parsing(int argc, char **argv, t_info *info)
 {
 	int	i;
 	int	j;
@@ -71,5 +87,12 @@ int	parsing(int argc, char **argv)
 			return (0);
 		i++;
 	}
+	info->n_philo = ft_atol(argv[1]);
+	info->time_to_die = ft_atol(argv[2]);
+	info->time_to_eat = ft_atol(argv[3]);
+	info->time_to_sleep = ft_atol(argv[4]);
+	if (argc == 6)
+		info->optional_eat = ft_atol(argv[5]);
+	info->philo = malloc(sizeof(t_philo) * info->n_philo);
 	return (1);
 }
