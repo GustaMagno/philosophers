@@ -6,7 +6,7 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:24:09 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/02 22:46:31 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/06 22:30:32 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,22 @@
 
 int	parsing(int argc, char **argv, t_info *info);
 
-void	atribuir_informcoes_ao_philo(t_info *info)
+
+void	assign_philo(t_info *info)
 {
 	int				i;
 
 	i = 0;
 	while(i < info->n_philo)
 	{
+		pthread_mutex_init(&info->n_fork[i], NULL);
 		info->philo[i].id = i + 1;
-		info->philo->info = info;
+		info->philo[i].info = info;
+		info->philo[i].dead = 0;
 		i++;
 	}
+	info->start_time = get_time();
+	pthread_mutex_init(&info->lock_print, NULL);
 }
 
 int main(int argc, char **argv)
@@ -35,12 +40,20 @@ int main(int argc, char **argv)
 	i = 0;
 	if (!parsing(argc, argv, &info))
 		return (write(2, "Error\n", 6), 0);
-	atribuir_informcoes_ao_philo(&info);
+	assign_philo(&info);
 	while (i < info.n_philo)
 	{
-		pthread_create(&info.philo[i]->thread, NULL, (void *)philo_routine, t_philo *philo);
+		pthread_create(&info.philo[i].thread, NULL, (void *)philo_routine, &info.philo[i]);
 		i++;
 	}
+	i = 0;
+	while (i < info.n_philo)
+	{
+		pthread_join(info.philo[i].thread, NULL);
+		i++;
+	}
+	free(info.n_fork);
+	free(info.philo);
 }
 
 int pthread_create(pthread_t *thread, const pthread_attr_t *attr,

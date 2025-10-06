@@ -6,7 +6,7 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:30:22 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/02 22:54:01 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/05 19:20:46 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,6 @@ long	ft_atol(const char *str)
 	if (check == 1)
 		nb *= -1;
 	return (nb);
-}
-
-void	put_list(t_philo *head, int index)
-{
-	if (!head)
-	{
-		head->id = index;
-
-	}
-}
-
-
-void	create_list(t_philo	*head, int n_philo)
-{
-			
 }
 
 int	check_values(char *argument, int position)

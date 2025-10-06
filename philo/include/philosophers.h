@@ -6,7 +6,7 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:22:32 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/02 22:50:15 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/06 21:31:32 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,31 @@
 # include <sys/time.h>
 # include <pthread.h>
 
-
-typedef  unsigned int t_usecs;
+typedef struct s_info t_info;
 
 typedef struct s_philo
 {
 	int			id;
 	int			fork;
-	t_usecs		time_to_die;
+	int			dead;
+	size_t		time_to_die;
 	pthread_t	thread;
 	t_info 		*info;
 }	t_philo;
-typedef struct s_info
+struct s_info
 {
 	int				n_philo;
-	t_usecs			time_to_eat;
-	t_usecs			optional_eat;
-	t_usecs			time_to_die;
-	t_usecs			time_to_sleep;
+	size_t			time_to_eat;
+	size_t			start_time;
+	size_t			optional_eat;
+	size_t			time_to_die;
+	size_t			time_to_sleep;
 	pthread_mutex_t *n_fork;
+	pthread_mutex_t lock_print;
 	t_philo 		*philo;
-}	t_info;
+};
+
+void			*philo_routine(t_philo *philo);
+unsigned long	get_time(void);
 
 #endif
