@@ -6,7 +6,7 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:24:09 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/06 22:30:32 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/10 21:12:51 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int main(int argc, char **argv)
 	assign_philo(&info);
 	while (i < info.n_philo)
 	{
-		pthread_create(&info.philo[i].thread, NULL, (void *)philo_routine, &info.philo[i]);
+		pthread_create(&info.philo[i].thread, NULL, (void *)conditions_philo, &info.philo[i]);
 		i++;
 	}
 	i = 0;

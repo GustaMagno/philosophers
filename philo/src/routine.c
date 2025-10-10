@@ -6,37 +6,37 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 19:27:20 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/06 23:01:55 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/10 21:14:55 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-unsigned long	get_time(void)
+void	fork_philo(t_philo *philo, int lock)
 {
-	struct timeval	time;
+	int	philo_fork;
 
-	gettimeofday(&time, NULL);
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+	philo_fork = philo->id - 1;
+	if (lock)
+	{
+		pthread_mutex_lock(&philo->info->n_fork[philo_fork]);
+		print_philo(philo, "has taken a fork");
+		if (philo->id == 1)
+			pthread_mutex_lock(&philo->info->n_fork[philo->info->n_philo - 1]);
+		else
+			pthread_mutex_lock(&philo->info->n_fork[philo_fork - 1]);
+		print_philo(philo, "has taken a fork");
+	}
+	else
+	{
+		pthread_mutex_unlock(&philo->info->n_fork[philo_fork]);
+		if (philo->id == 1)
+			pthread_mutex_unlock(&philo->info->n_fork[philo->info->n_philo - 1]);
+		else
+			pthread_mutex_unlock(&philo->info->n_fork[philo_fork - 1]);
+	}
 }
 
-void	my_sleep(unsigned long	time)
-{
-	unsigned long	temporizator;
-
-	temporizator = get_time();
-	while (temporizator + time > get_time())
-		usleep(250);
-}
-//my_sleep(1) == usleep(1000);
-
-void	print_philo(t_philo *philo, char *str)
-{
-	pthread_mutex_lock(&philo->info->lock_print);
-	printf("%lu %i %s\n", get_time() - philo->info->start_time ,philo->id, str);
-	pthread_mutex_unlock(&philo->info->lock_print);
-
-}
 int	one_verification(t_philo *philo)
 {
 	if (philo->info->n_philo > 1)
@@ -47,29 +47,24 @@ int	one_verification(t_philo *philo)
 	return (1);
 }
 
-void	*philo_routine(t_philo *philo)
+void	*philo_routine_(t_philo *philo)
 {
 	if (one_verification(philo))
 		return (NULL);
+	if (!philo->info->n_philo % 2)
+	{
+		if (philo->id % 2)
+			my_sleep(philo->info->time_to_die);
+	}
 	while (!philo->dead)
 	{
-		pthread_mutex_lock(&philo->info->n_fork[philo->id]);
-		if (philo->id == 0)
-			pthread_mutex_lock(&philo->info->n_fork[philo->info->n_philo - 1]);
-		else
-			pthread_mutex_lock(&philo->info->n_fork[philo->id - 1]);
-		print_philo(philo, "has taken a fork");
+		fork_philo(philo, 1);
 		print_philo(philo, "is eating");
 		my_sleep(philo->info->time_to_eat);
-		pthread_mutex_unlock(&philo->info->n_fork[philo->id]);
-		if (philo->id == 0)
-			pthread_mutex_unlock(&philo->info->n_fork[philo->info->n_philo - 1]);
-		else
-			pthread_mutex_unlock(&philo->info->n_fork[philo->id - 1]);
+		fork_philo(philo, 0);
 		print_philo(philo,  "is sleeping");
 		my_sleep(philo->info->time_to_sleep);
 		print_philo(philo, "is thinking");
-		philo->dead = 1;
 	}
 	print_philo(philo, "is dead");
 	return (NULL);

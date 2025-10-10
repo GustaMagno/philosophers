@@ -6,6 +6,7 @@ CFLAGS	= -g -O3 -Iinclude
 SRCS	= src/philosophers.c \
 		src/parsing.c \
 		src/routine.c \
+		src/utils.c \
 
 OBJS	= $(SRCS:.c=.o)
 

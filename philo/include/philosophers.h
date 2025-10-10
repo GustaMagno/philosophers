@@ -6,7 +6,7 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:22:32 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/06 21:31:32 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/10 20:45:13 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,9 @@ struct s_info
 	t_philo 		*philo;
 };
 
-void			*philo_routine(t_philo *philo);
+void			*conditions_philo(t_philo *philo);
+void			print_philo(t_philo *philo, char *str);
+void			my_sleep(unsigned long	time);
 unsigned long	get_time(void);
 
 #endif
