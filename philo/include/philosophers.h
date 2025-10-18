@@ -6,7 +6,7 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:22:32 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/10 20:45:13 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/16 21:50:20 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,14 @@ typedef struct s_info t_info;
 
 typedef struct s_philo
 {
-	int			id;
-	int			fork;
-	int			dead;
-	size_t		time_to_die;
-	pthread_t	thread;
-	t_info 		*info;
+	int				id;
+	int				fork;
+	int				dead;
+	pthread_mutex_t	*left;
+	pthread_mutex_t	*right;
+	size_t			time_to_die;
+	pthread_t		thread;
+	t_info 			*info;
 }	t_philo;
 struct s_info
 {
@@ -44,7 +46,7 @@ struct s_info
 	t_philo 		*philo;
 };
 
-void			*conditions_philo(t_philo *philo);
+void			*philo_routine(t_philo *philo);
 void			print_philo(t_philo *philo, char *str);
 void			my_sleep(unsigned long	time);
 unsigned long	get_time(void);
