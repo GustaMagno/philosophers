@@ -61,7 +61,6 @@ int	check_values(char *argument, int position)
 int	parsing(int argc, char **argv, t_info *info)
 {
 	int	i;
-	int	j;
 
 	i = 1;
 	if (argc != 6 && argc != 5)

@@ -1,6 +1,6 @@
 NAME	= philo
 CC		= cc
-CFLAGS	= -g -O3 -Iinclude
+CFLAGS	= -Iinclude -Wall -Wextra -Werror
 
 
 SRCS	= src/philosophers.c \

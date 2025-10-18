@@ -34,6 +34,7 @@ void	assign_philo(t_info *info)
 	info->philo[0].left = &info->n_fork[info->n_philo - 1];
 	info->start_time = get_time();
 	pthread_mutex_init(&info->lock_print, NULL);
+
 }
 
 int main(int argc, char **argv)
