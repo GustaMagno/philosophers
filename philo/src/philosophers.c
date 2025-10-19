@@ -6,7 +6,7 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:24:09 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/16 21:52:50 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/19 23:51:04 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,33 @@
 
 int	parsing(int argc, char **argv, t_info *info);
 
+void	condition_fork(t_philo *philo)
+{
+	
+}
+
+void	assign_forks(t_info *info)
+{
+	int	i;
+
+	i = 0;
+	while (i < info->n_philo)
+		pthread_mutex_init(&info->n_fork[i++], NULL);
+}
 
 void	assign_philo(t_info *info)
 {
 	int	i;
 
 	i = 0;
+	assign_forks(info);
 	while(i < info->n_philo)
 	{
-		pthread_mutex_init(&info->n_fork[i], NULL);
 		info->philo[i].id = i + 1;
-		info->philo[i].right = &info->n_fork[i];
+		conditions_fork(info->philo);
 		info->philo[i].info = info;
-		info->philo[i].dead = 0;
-		if (i != 0)
-			info->philo[i].left = &info->n_fork[i - 1];
-		i++;
+		info->philo[i++].dead = 0;
 	}
-	info->philo[0].left = &info->n_fork[info->n_philo - 1];
 	info->start_time = get_time();
 	pthread_mutex_init(&info->lock_print, NULL);
 
