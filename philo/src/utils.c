@@ -6,7 +6,7 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 19:37:22 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/10 19:37:23 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/22 01:47:27 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@ unsigned long	get_time(void)
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
-void	my_sleep(unsigned long	time)
+void	my_sleep(unsigned long	time, int dead)
 {
 	unsigned long	temporizator;
 
+	if (dead)
+		return ;
 	temporizator = get_time();
 	while (temporizator + time > get_time())
 		usleep(250);
@@ -32,6 +34,10 @@ void	my_sleep(unsigned long	time)
 
 void	print_philo(t_philo *philo, char *str)
 {
+	if (philo->info->dead)
+		return ;
+	if (str[3] == 'e')
+		philo->eating = 1;
 	pthread_mutex_lock(&philo->info->lock_print);
 	printf("%lu %i %s\n", get_time() - philo->info->start_time ,philo->id, str);
 	pthread_mutex_unlock(&philo->info->lock_print);
