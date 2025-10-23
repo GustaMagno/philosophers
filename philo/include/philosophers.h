@@ -6,7 +6,7 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:22:32 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/22 01:47:47 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/23 20:58:43 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,34 +25,39 @@ typedef struct s_info t_info;
 typedef struct s_philo
 {
 	int				id;
-	int				eating;
-	int				fork;
 	int				dead;
+	unsigned long	eating;
+	int				fork;
 	pthread_mutex_t	*first;
 	pthread_mutex_t	*second;
 	size_t			time_to_die;
 	pthread_t		thread;
 	t_info 			*info;
+	pthread_mutex_t mutex_eat;
 }	t_philo;
 struct s_info
 {
 	int				n_philo;
+	int				dead;
 	size_t			time_to_eat;
 	size_t			start_time;
 	size_t			optional_eat;
 	size_t			time_to_die;
 	size_t			time_to_sleep;
 	pthread_t		monitor;
+	t_philo 		*philo;
 	pthread_mutex_t *n_fork;
 	pthread_mutex_t lock_print;
-	t_philo 		*philo;
-	int				dead;
+	pthread_mutex_t is_dead;
+	pthread_mutex_t eating;
+	pthread_mutex_t set_dead;
 };
 
 void			*philo_routine(t_philo *philo);
 void			print_philo(t_philo *philo, char *str);
-void			my_sleep(unsigned long	time, int dead);
+void			my_sleep(unsigned long	time, t_info *info);
 unsigned long	get_time(void);
+void			set_dead(t_info *info, int i);
 void			*monitor_philos(t_info *info);
 
 

@@ -6,7 +6,7 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:24:09 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/22 02:23:14 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/23 20:20:27 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	condition_fork(t_info *info, int i)
 	if (info->philo[i].id == info->n_philo)
 	{
 		info->philo[i].first = &info->n_fork[0];
-		info->philo[i].second = &info->n_fork[i];
+		info->philo[i].second = &info->n_fork[i]; 
 		return ;
 	}
-	if (info->philo[i].id % 2)
+	if (info->philo[i].id % 2 == 1)
 	{
 		info->philo[i].first = &info->n_fork[i];
 		info->philo[i].second = &info->n_fork[i + 1];
@@ -35,13 +35,16 @@ void	condition_fork(t_info *info, int i)
 	}
 }
 
-void	assign_forks(t_info *info)
+void	assign_mutex(t_info *info)
 {
 	int	i;
 
 	i = 0;
 	while (i < info->n_philo)
-		pthread_mutex_init(&info->n_fork[i++], NULL);
+	{
+		pthread_mutex_init(&info->n_fork[i], NULL);
+		pthread_mutex_init(&info->philo[i++].mutex_eat, NULL);
+	}
 }
 
 void	assign_philo(t_info *info)
@@ -49,16 +52,19 @@ void	assign_philo(t_info *info)
 	int	i;
 
 	i = 0;
-	assign_forks(info);
+	assign_mutex(info);
 	while(i < info->n_philo)
 	{
 		info->philo[i].id = i + 1;
 		condition_fork(info, i);
 		info->philo[i].info = info;
-		info->philo[i++].dead = 0;
+		info->philo[i].eating = get_time() + info->time_to_die;
+		i++;
 	}
 	pthread_mutex_init(&info->lock_print, NULL);
-
+	pthread_mutex_init(&info->is_dead, NULL);
+	pthread_mutex_init(&info->set_dead, NULL);
+	pthread_mutex_init(&info->eating, NULL);
 }
 
 int main(int argc, char **argv)
