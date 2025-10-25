@@ -6,7 +6,7 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 19:27:20 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/23 20:59:40 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/24 23:01:31 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,6 @@ void	*monitor_philos(t_info *info)
 
 void	fork_philo(t_philo *philo,  pthread_mutex_t *fork)
 {
-	// pthread_mutex_lock(&philo->info->is_dead);
-	// // if (philo->info->dead && fork)
-	// // {
-	// // 	pthread_mutex_unlock(&philo->info->is_dead);
-	// // 	return ;
-	// // }
-	// pthread_mutex_unlock(&philo->info->is_dead);
 	if (fork)
 	{
 		pthread_mutex_lock(fork);
@@ -77,8 +70,12 @@ void	*philo_routine(t_philo *philo)
 		print_philo(philo,  "is sleeping");
 		my_sleep(philo->info->time_to_sleep, philo->info);
 	}
+	if ((philo->info->n_philo % 2) && philo->id % 2)
+		my_sleep(10 * (philo->id), philo->info);
 	while (1)
 	{
+		if ((philo->info->n_philo % 2) && philo->id % 2)
+			my_sleep(10 * (philo->id), philo->info);
 		pthread_mutex_lock(&philo->info->is_dead);
 		if (philo->info->dead)
 			return(pthread_mutex_unlock(&philo->info->is_dead), NULL);

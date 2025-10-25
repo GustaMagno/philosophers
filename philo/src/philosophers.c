@@ -6,7 +6,7 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:24:09 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/23 20:20:27 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/24 20:57:02 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,6 @@ int	parsing(int argc, char **argv, t_info *info);
 
 void	condition_fork(t_info *info, int i)
 {
-	if (info->philo[i].id == info->n_philo)
-	{
-		info->philo[i].first = &info->n_fork[0];
-		info->philo[i].second = &info->n_fork[i]; 
-		return ;
-	}
 	if (info->philo[i].id % 2 == 1)
 	{
 		info->philo[i].first = &info->n_fork[i];
@@ -32,6 +26,13 @@ void	condition_fork(t_info *info, int i)
 	{
 		info->philo[i].first = &info->n_fork[i + 1];
 		info->philo[i].second = &info->n_fork[i];
+	}
+	if (info->philo[i].id == info->n_philo)
+	{
+		if (info->philo[i].id % 2 == 1)
+			info->philo[i].second = &info->n_fork[0];
+		else
+			info->philo[i].first = &info->n_fork[0];
 	}
 }
 

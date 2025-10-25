@@ -6,7 +6,7 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 19:37:22 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/23 21:02:19 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/24 20:40:16 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,6 @@ void	my_sleep(unsigned long	time, t_info *info)
 	unsigned long	temporizator;
 
 	(void)(info);
-	// pthread_mutex_lock(&info->is_dead);
-	// if (info->dead)
-	// {		
-	// 	pthread_mutex_unlock(&info->is_dead);
-	// 	return ;
-	// }
-	// pthread_mutex_unlock(&info->is_dead);
 	temporizator = get_time();
 	while (temporizator + time > get_time())
 		usleep(10);
@@ -65,5 +58,4 @@ void	print_philo(t_philo *philo, char *str)
 	pthread_mutex_lock(&philo->info->lock_print);
 	printf("%lu %i %s\n", get_time() - philo->info->start_time ,philo->id, str);
 	pthread_mutex_unlock(&philo->info->lock_print);
-
 }
