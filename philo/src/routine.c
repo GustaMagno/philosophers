@@ -6,13 +6,16 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 19:27:20 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/24 23:01:31 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/25 19:13:00 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-
+int	all_eat(t_info *info)
+{
+	
+}
 
 void	*monitor_philos(t_info *info)
 {
@@ -24,7 +27,7 @@ void	*monitor_philos(t_info *info)
 		if (i == info->n_philo)
 			i = 0;
 		pthread_mutex_lock(&info->philo[i].mutex_eat);
-		if (get_time() >= info->philo[i].eating)
+		if (get_time() >= info->philo[i].eating || all_eat(info))
 		{
 			set_dead(info, i);
 			pthread_mutex_unlock(&info->philo[i].mutex_eat);
@@ -70,8 +73,6 @@ void	*philo_routine(t_philo *philo)
 		print_philo(philo,  "is sleeping");
 		my_sleep(philo->info->time_to_sleep, philo->info);
 	}
-	if ((philo->info->n_philo % 2) && philo->id % 2)
-		my_sleep(10 * (philo->id), philo->info);
 	while (1)
 	{
 		if ((philo->info->n_philo % 2) && philo->id % 2)

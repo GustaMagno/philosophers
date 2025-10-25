@@ -6,7 +6,7 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 19:37:22 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/24 20:40:16 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/25 19:03:43 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	print_philo(t_philo *philo, char *str)
 	{
 		pthread_mutex_lock(&philo->mutex_eat);
 		philo->eating = get_time() + philo->info->time_to_die + philo->info->time_to_eat;
+		philo->eat_times++;
 		pthread_mutex_unlock(&philo->mutex_eat);
 	}
 	pthread_mutex_lock(&philo->info->lock_print);

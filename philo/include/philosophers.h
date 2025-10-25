@@ -6,7 +6,7 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:22:32 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/23 20:58:43 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/25 19:02:44 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_philo
 {
 	int				id;
 	int				dead;
+	int				eat_times;
 	unsigned long	eating;
 	int				fork;
 	pthread_mutex_t	*first;
