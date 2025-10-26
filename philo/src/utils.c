@@ -6,7 +6,7 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 19:37:22 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/25 19:03:43 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/26 22:50:32 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 void	set_dead(t_info *info, int i)
 {
-	print_philo(&info->philo[i], "is dead");
 	pthread_mutex_lock(&info->is_dead);
 	info->dead = 1;
 	pthread_mutex_unlock(&info->is_dead);
+	if (!all_eat(info->philo))
+		print_philo(&info->philo[i], "is dead");
 }
 
 unsigned long	get_time(void)
@@ -45,7 +46,7 @@ void	print_philo(t_philo *philo, char *str)
 	pthread_mutex_lock(&philo->info->is_dead);
 	if (philo->info->dead)
 	{	
-		 	pthread_mutex_unlock(&philo->info->is_dead);
+		pthread_mutex_unlock(&philo->info->is_dead);
 		return ;
 	}
 	 	pthread_mutex_unlock(&philo->info->is_dead);

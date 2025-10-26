@@ -6,7 +6,7 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:24:09 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/24 20:57:02 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/26 20:14:46 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int main(int argc, char **argv)
 	i = 0;
 	if (!parsing(argc, argv, &info))
 		return (write(2, "Error\n", 6), 0);
+	if (!info.optional_eat)
+		return (0);
 	assign_philo(&info);
 	info.start_time = get_time();
 	while (i < info.n_philo)

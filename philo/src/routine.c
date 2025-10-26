@@ -6,15 +6,25 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 19:27:20 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/25 19:13:00 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/26 20:44:27 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	all_eat(t_info *info)
+int	all_eat(t_philo *philo)
 {
+	static int	check;
 	
+	if (philo->info->optional_eat == -1)
+		return (0);
+	if (check == philo->info->n_philo)
+		return (1);
+	if (philo->eat_times != philo->info->optional_eat)
+		check = 0;
+	else
+		check++;
+	return (0);
 }
 
 void	*monitor_philos(t_info *info)
@@ -27,7 +37,7 @@ void	*monitor_philos(t_info *info)
 		if (i == info->n_philo)
 			i = 0;
 		pthread_mutex_lock(&info->philo[i].mutex_eat);
-		if (get_time() >= info->philo[i].eating || all_eat(info))
+		if (get_time() >= info->philo[i].eating || all_eat(&info->philo[i]))
 		{
 			set_dead(info, i);
 			pthread_mutex_unlock(&info->philo[i].mutex_eat);

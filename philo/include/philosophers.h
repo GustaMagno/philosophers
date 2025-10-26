@@ -6,7 +6,7 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:22:32 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/25 19:02:44 by gustoliv         ###   ########.fr       */
+/*   Updated: 2025/10/26 20:41:54 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ struct s_info
 	int				dead;
 	size_t			time_to_eat;
 	size_t			start_time;
-	size_t			optional_eat;
+	int				optional_eat;
 	size_t			time_to_die;
 	size_t			time_to_sleep;
 	pthread_t		monitor;
@@ -60,6 +60,7 @@ void			my_sleep(unsigned long	time, t_info *info);
 unsigned long	get_time(void);
 void			set_dead(t_info *info, int i);
 void			*monitor_philos(t_info *info);
+int				all_eat(t_philo *philo);
 
 
 #endif
