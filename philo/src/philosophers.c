@@ -6,11 +6,15 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:24:09 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/26 20:14:46 by gustoliv         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:30:09 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+// 1 2 3 
+
+// 500 100 100
 
 int	parsing(int argc, char **argv, t_info *info);
 
@@ -20,7 +24,6 @@ void	condition_fork(t_info *info, int i)
 	{
 		info->philo[i].first = &info->n_fork[i];
 		info->philo[i].second = &info->n_fork[i + 1];
-		
 	}
 	else
 	{
@@ -54,7 +57,7 @@ void	assign_philo(t_info *info)
 
 	i = 0;
 	assign_mutex(info);
-	while(i < info->n_philo)
+	while (i < info->n_philo)
 	{
 		info->philo[i].id = i + 1;
 		condition_fork(info, i);
@@ -68,7 +71,7 @@ void	assign_philo(t_info *info)
 	pthread_mutex_init(&info->eating, NULL);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	static t_info	info;
 	int				i;
@@ -82,7 +85,8 @@ int main(int argc, char **argv)
 	info.start_time = get_time();
 	while (i < info.n_philo)
 	{
-		pthread_create(&info.philo[i].thread, NULL, (void *)philo_routine, &info.philo[i]);
+		pthread_create(&info.philo[i].thread, NULL,
+			(void *)philo_routine, &info.philo[i]);
 		i++;
 	}
 	i = 0;
@@ -93,23 +97,22 @@ int main(int argc, char **argv)
 		i++;
 	}
 	pthread_join(info.monitor, NULL);
-	free(info.n_fork);
-	free(info.philo);
+	(free(info.n_fork), free(info.philo));
 }
 
-int pthread_create(pthread_t *thread, const pthread_attr_t *attr,
-                   void *(*start_routine)(void *), void *arg);
+// int pthread_create(pthread_t *thread, const pthread_attr_t *attr,
+//                    void *(*start_routine)(void *), void *arg);
 
-int pthread_detach(pthread_t thread);
+// int pthread_detach(pthread_t thread);
 
-int pthread_join(pthread_t thread, void **retval);
+// int pthread_join(pthread_t thread, void **retval);
 
-// Mutex (Mutual Exclusion)
-int pthread_mutex_init(pthread_mutex_t *mutex,
-                       const pthread_mutexattr_t *attr);
+// // Mutex (Mutual Exclusion)
+// int pthread_mutex_init(pthread_mutex_t *mutex,
+//                        const pthread_mutexattr_t *attr);
 
-int pthread_mutex_destroy(pthread_mutex_t *mutex);
+// int pthread_mutex_destroy(pthread_mutex_t *mutex);
 
-int pthread_mutex_lock(pthread_mutex_t *mutex);
+// int pthread_mutex_lock(pthread_mutex_t *mutex);
 
-int pthread_mutex_unlock(pthread_mutex_t *mutex);
+// int pthread_mutex_unlock(pthread_mutex_t *mutex);

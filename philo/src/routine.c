@@ -6,7 +6,7 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 19:27:20 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/26 20:44:27 by gustoliv         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:31:06 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	all_eat(t_philo *philo)
 {
 	static int	check;
-	
+
 	if (philo->info->optional_eat == -1)
 		return (0);
 	if (check == philo->info->n_philo)
@@ -30,18 +30,18 @@ int	all_eat(t_philo *philo)
 void	*monitor_philos(t_info *info)
 {
 	int	i;
-	
+
 	i = 0;
 	while (1)
 	{
 		if (i == info->n_philo)
 			i = 0;
 		pthread_mutex_lock(&info->philo[i].mutex_eat);
-		if (get_time() >= info->philo[i].eating || all_eat(&info->philo[i]))
+		if (get_time() > info->philo[i].eating || all_eat(&info->philo[i]))
 		{
 			set_dead(info, i);
 			pthread_mutex_unlock(&info->philo[i].mutex_eat);
-			break;
+			break ;
 		}
 		pthread_mutex_unlock(&info->philo[i].mutex_eat);
 		usleep(1);
@@ -50,7 +50,7 @@ void	*monitor_philos(t_info *info)
 	return (info);
 }
 
-void	fork_philo(t_philo *philo,  pthread_mutex_t *fork)
+void	fork_philo(t_philo *philo, pthread_mutex_t *fork)
 {
 	if (fork)
 	{
@@ -80,23 +80,23 @@ void	*philo_routine(t_philo *philo)
 		return (NULL);
 	if (!(philo->info->n_philo % 2) && philo->id % 2 == 0)
 	{
-		print_philo(philo,  "is sleeping");
+		print_philo(philo, "is sleeping");
 		my_sleep(philo->info->time_to_sleep, philo->info);
 	}
 	while (1)
 	{
 		if ((philo->info->n_philo % 2) && philo->id % 2)
-			my_sleep(10 * (philo->id), philo->info);
+			my_sleep(1 * (philo->id), philo->info);
 		pthread_mutex_lock(&philo->info->is_dead);
 		if (philo->info->dead)
-			return(pthread_mutex_unlock(&philo->info->is_dead), NULL);
+			return (pthread_mutex_unlock(&philo->info->is_dead), NULL);
 		pthread_mutex_unlock(&philo->info->is_dead);
 		fork_philo(philo, philo->first);
 		fork_philo(philo, philo->second);
 		print_philo(philo, "is eating");
 		my_sleep(philo->info->time_to_eat, philo->info);
-		fork_philo(philo,  NULL);
-		print_philo(philo,  "is sleeping");
+		fork_philo(philo, NULL);
+		print_philo(philo, "is sleeping");
 		my_sleep(philo->info->time_to_sleep, philo->info);
 		print_philo(philo, "is thinking");
 	}

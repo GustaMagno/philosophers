@@ -6,11 +6,19 @@
 /*   By: gustoliv <gustoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 18:30:22 by gustoliv          #+#    #+#             */
-/*   Updated: 2025/10/26 20:09:19 by gustoliv         ###   ########.fr       */
+/*   Updated: 2026/03/12 18:28:15 by gustoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+void	conditional_time(t_info *info)
+{
+	if (info->time_to_eat > info->time_to_die)
+		info->time_to_eat = info->time_to_die + 100;
+	if (info->time_to_sleep > info->time_to_die)
+		info->time_to_sleep = info->time_to_die + 100;
+}
 
 long	ft_atol(const char *str)
 {
@@ -47,7 +55,7 @@ int	check_values(char *argument, int position)
 	while (argument[i])
 	{
 		if ((argument[i] < '0' || argument[i] > '9') && argument[i] != 32
-		&& argument[i] != 9)
+			&& argument[i] != 9)
 			return (0);
 		i++;
 	}
@@ -75,6 +83,7 @@ int	parsing(int argc, char **argv, t_info *info)
 	info->time_to_die = ft_atol(argv[2]);
 	info->time_to_eat = ft_atol(argv[3]);
 	info->time_to_sleep = ft_atol(argv[4]);
+	conditional_time(info);
 	if (argc == 6)
 		info->optional_eat = ft_atol(argv[5]);
 	else
